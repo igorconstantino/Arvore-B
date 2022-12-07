@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TREE_ORDER 4
-#define MAX TREE_ORDER - 1
-#define MIN_NODES (TREE_ORDER / 2 + (TREE_ORDER / 2.0 - TREE_ORDER / 2 > 0 ? 1 : 0))
-#define MIN MIN_NODES - 1
+#define MAX 4
+#define MIN 2
 
 typedef struct no
 {
@@ -70,6 +68,12 @@ void divideNo(int item, int *pval, int pos, No *no, No *filho, No **novoNo)
   no->count--;
 }
 
+void limparBuffer()
+{
+  int c;
+  while (((c = getchar()) == '\n' && c == EOF))
+    ;
+}
 void escreveArvB(No *noSelecionado)
 {
   int i;
@@ -156,10 +160,11 @@ void inserir(int item)
   if (flag != -2)
     printf("\n--> Valor inserido com sucesso!\n\n");
   else
-    printf("\n!--> Não permite valor duplicado!\n\n");
+    printf("\n!--> nao permite valor duplicado!\n\n");
 }
 
-int getTamanhoArvB(No *root)
+/*===========================================Funçõs para printar a arvore===========================================*/
+int getTamanhoArvB(No *root) // Calculando nivel da árvore B
 {
   int height;
 
@@ -171,7 +176,7 @@ int getTamanhoArvB(No *root)
   return height;
 }
 
-void escreveNoCompleto(No *no)
+void escreveNoCompleto(No *no) // Escrever o nó
 {
   int i;
   for (i = 0; i < no->count; i++)
@@ -179,7 +184,7 @@ void escreveNoCompleto(No *no)
   printf("      ");
 }
 
-void escreveNivelArvB(No *root, int nivel)
+void escreveNivelArvB(No *root, int nivel) // Escrevendo todos os nós da árvore
 {
   if (!root)
     return;
@@ -191,7 +196,7 @@ void escreveNivelArvB(No *root, int nivel)
       escreveNivelArvB(root->link[i], nivel - 1);
 }
 
-void escreveArvBPorNivel(No *root)
+void escreveArvBPorNivel(No *root) // Função completa para printar a árvore por nível
 {
   int height = getTamanhoArvB(root);
   int i;
@@ -200,53 +205,48 @@ void escreveArvBPorNivel(No *root)
     if (i == 0)
       printf("RAIZ:\t\t");
     else
-      printf("\n\nNÍVEL %02d:\t", i);
+      printf("\n\nNIVEL %02d:\t", i);
 
     escreveNivelArvB(root, i);
   }
 }
+/*===========================================Funçõs para printar a arvore===========================================*/
 
-void clearBuf()
-{
-  int c;
-  while (((c = getchar()) == '\n' && c == EOF))
-    ;
-}
 
 int main()
 {
-  int r, op, item;
+  int input, op, item;
 
   do
   {
     do
     {
-      printf("\n==== MENU ====");
+      printf("\n======== MENU ========");
+      printf("\n(0) Sair");
       printf("\n(1) Inserir na Arvore-B");
       printf("\n(2) Buscar na Arvore-B");
       printf("\n(3) Mostrar Arvore-B");
-      printf("\n(0) Encerrar");
 
-      printf("\n\n--> Insira a opcao desejada: ");
-      r = scanf(" %d", &op);
+      printf("\n\n-> Insira a opcao desejada: ");
+      input = scanf(" %d", &op);
 
-      if (!r)
-        clearBuf();
+      if (!input)
+        limparBuffer();
 
-      if (!r || op < 0 || op > 3)
-        printf("\n!--> Insira uma opcao válida!\n\n");
-    } while (!r || op < 0 || op > 3);
+      if (!input || op < 0 || op > 3)
+        printf("\n!-> Insira uma opcao válida!\n\n");
+    } while (!input|| op < 0 || op > 3);
 
     switch (op)
     {
     case 1:
       printf("\n--> Insira o valor a ser inserido: ");
-      r = scanf(" %d", &item);
+      input = scanf(" %d", &item);
 
-      if (!r)
+      if (!input)
       {
-        clearBuf();
-        printf("\n!--> Insira um valor válido!\n\n");
+        limparBuffer();
+        printf("\nInsira um valor valido!\n\n");
       }
       else
         inserir(item);
@@ -255,34 +255,31 @@ int main()
 
     case 2:
       printf("\n--> Insira o valor a ser buscado: ");
-      r = scanf(" %d", &item);
+      input = scanf(" %d", &item);
 
-      if (!r)
+      if (!input)
       {
-        clearBuf();
-        printf("\n!--> Insira um valor válido!\n\n");
+        limparBuffer();
+        printf("\nInsira um valor valido!\n\n");
       }
       else if (procura(raiz, item))
         printf("\n--> Valor encontrado!\n\n");
       else
-        printf("\n--> O valor não foi encontado!\n\n");
+        printf("\n--> O valor nao foi encontado!\n\n");
 
       break;
 
     case 3:
       if (!raiz)
-        printf("\n--> Árvore vazia!\n\n");
+        printf("\n--> Arvore vazia!\n\n");
       else
       {
-        printf("\n====> Árvore-B (Ordenada de Altura-%d)\n\n", getTamanhoArvB(raiz));
+        printf("\n--> Arvore-B (Altura %d)\n\n", getTamanhoArvB(raiz));
         escreveArvBPorNivel(raiz);
         printf("\n\n");
       }
 
       break;
-
-    case 0:
-      printf("\n--> Obrigado por utilizar nosso programa! 😁\n\n");
     }
   } while (op != 0);
 
