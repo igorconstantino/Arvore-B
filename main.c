@@ -221,20 +221,20 @@ int main()
   {
     do
     {
-      printf("\n==== MENU");
-      printf("\n(1) Inserir na Árvore-B");
-      printf("\n(2) Buscar na Árvore-B");
-      printf("\n(3) Mostrar Árvore-B");
+      printf("\n==== MENU ====");
+      printf("\n(1) Inserir na Arvore-B");
+      printf("\n(2) Buscar na Arvore-B");
+      printf("\n(3) Mostrar Arvore-B");
       printf("\n(0) Encerrar");
 
-      printf("\n\n--> Insira a opção desejada: ");
+      printf("\n\n--> Insira a opcao desejada: ");
       r = scanf(" %d", &op);
 
       if (!r)
         clearBuf();
 
       if (!r || op < 0 || op > 3)
-        printf("\n!--> Insira uma opção válida!\n\n");
+        printf("\n!--> Insira uma opcao válida!\n\n");
     } while (!r || op < 0 || op > 3);
 
     switch (op)
